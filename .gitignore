@@ -1,0 +1,6 @@
+coverage
+log
+tests/html.php
+
+/vendor/
+composer.lock
