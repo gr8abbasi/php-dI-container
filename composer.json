@@ -1,0 +1,25 @@
+{
+    "name": "gr8abbasi/php-di-container",
+    "description": "Simple Dependency Injection Container/Library for PHP",
+    "homepage":"https://github.com/gr8abbasi/php-di-container",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Muhammad Kashif Abbasi",
+            "email": "gr8.abbasi@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Gr8abbasi\\Container\\": "src/"
+        }
+
+    },
+    "require": {
+        "php":">=5.4",
+        "container-interop/container-interop": "^1.1"
+    },
+    "require-dev":{
+        "phpunit/phpunit": "^5.4.0"
+    }
+}
