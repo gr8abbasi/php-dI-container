@@ -20,7 +20,7 @@ class ContainerTest extends TestCase
      */
     public function setUp()
     {
-        $this->container = new Container();
+        $this->container = new Container($services, $serviceStore);
     }
 
     /**
@@ -29,6 +29,17 @@ class ContainerTest extends TestCase
     public function isInstanceOfContainerInterface()
     {
         $this->assertInstanceOf(Container::class, $this->container);
+    }
+
+    /**
+     * @test
+     */
+    public function canGetServiceFromContainer()
+    {
+        $input = $this->container->get("test-service");
+        $expected = TestService::class;
+
+        $this->assertInstanceOf($expected, $input);
     }
 
     /**

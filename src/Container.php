@@ -10,6 +10,16 @@ use Interop\Container\ContainerInterface;
 class Container implements ContainerInterface
 {
     /**
+     * @var array
+     */
+    private $services;
+
+    /**
+     * @var array
+     */
+    private $serviceStore;
+
+    /**
      * {@inheritdoc}
      */
     public function get($id)
