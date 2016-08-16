@@ -14,12 +14,12 @@ Package Details:
 
 Add following dependency to your `composer.json`
 
-```
+```javascript
 {
-require: {
-// Add this line to your `composer require` as shown below
-"gr8abbasi/php-di-container":"dev-master"
-         }
+  require: {
+     // Add this line to your `composer require` as shown below
+     "gr8abbasi/php-di-container":"dev-master"
+  }
 }
 ```
 That's it and your ready to use it :)
