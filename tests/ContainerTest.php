@@ -4,6 +4,7 @@ namespace tests;
 
 use PHPUnit\Framework\TestCase;
 use Gr8abbasi\Container\Container;
+use DummyServices\DummyService;
 
 /**
  * Container Test
@@ -20,7 +21,7 @@ class ContainerTest extends TestCase
      */
     public function setUp()
     {
-        $this->container = new Container($services, $serviceStore);
+        $this->container = new Container('dummy-service');
     }
 
     /**
@@ -36,15 +37,24 @@ class ContainerTest extends TestCase
      */
     public function canGetServiceFromContainer()
     {
-        $input = $this->container->get("test-service");
-        $expected = TestService::class;
+        $input = $this->container->get("dummy-service");
 
-        $this->assertInstanceOf($expected, $input);
+        $this->assertInstanceOf(DummyService::class, $input);
     }
 
     /**
      * @test
-     * @expectedException Interop\Container\ContainerException
+     * @expectedException Gr8abbasi\Container\Exception\NotFoundException
+     * @expectedExceptionMessage Service not found: foo
+     */
+    public function throwsNotFoundException()
+    {
+        $this->container->get('foo');
+    }
+
+    /**
+     * @test
+     * @expectedException Gr8abbasi\Container\Exception\ContainerException
      * @expectedExceptionMessage something went wrong with container
      */
     public function throwContainerException()
