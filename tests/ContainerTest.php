@@ -2,14 +2,14 @@
 
 namespace tests;
 
-use PHPUnit\Framework\TestCase;
+use PHPUnit_Framework_TestCase;
 use Gr8abbasi\Container\Container;
 use DummyServices\DummyService;
 
 /**
  * Container Test
  */
-class ContainerTest extends TestCase
+class ContainerTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Container
