@@ -21,7 +21,9 @@ class ContainerTest extends TestCase
      */
     public function setUp()
     {
-        $this->container = new Container('dummy-service');
+        $this->container = new Container([
+            'dummy-service' => DummyService::class,
+        ]);
     }
 
     /**
@@ -37,7 +39,7 @@ class ContainerTest extends TestCase
      */
     public function canGetServiceFromContainer()
     {
-        $input = $this->container->get("dummy-service");
+        $input = $this->container->get('dummy-service');
 
         $this->assertInstanceOf(DummyService::class, $input);
     }
@@ -55,10 +57,26 @@ class ContainerTest extends TestCase
     /**
      * @test
      * @expectedException Gr8abbasi\Container\Exception\ContainerException
-     * @expectedExceptionMessage something went wrong with container
+     * @expectedExceptionMessage Service should be an array with key value pair: foo
      */
     public function throwContainerException()
     {
-        $this->container->get('foo');
+        $container = new Container([
+            'foo' => ''
+        ]);
+        $container->get('foo');
+    }
+
+    /**
+     * @test
+     * @expectedException Gr8abbasi\Container\Exception\ContainerException
+     * @expectedExceptionMessage Class does not exists: FooClass\Foo
+     */
+    public function throwContainerExceptionOnServiceNotFound()
+    {
+        $container = new Container([
+            'foo' => 'FooClass\Foo'
+        ]);
+        $container->get('foo');
     }
 }
