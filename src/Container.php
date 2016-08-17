@@ -38,7 +38,7 @@ class Container implements ContainerInterface
     public function get($name)
     {
         if (!$this->has($name)) {
-            throw new NotFoundException('Service not found: '.$name);
+            throw new NotFoundException('Service not found: ' . $name);
         }
 
         if (!isset($this->serviceStore[$name])) {
