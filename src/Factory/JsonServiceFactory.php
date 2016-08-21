@@ -16,20 +16,14 @@ class JsonServiceFactory implements ServiceFactoryInterface
     private $services;
 
     /**
-     * @var array $serviceList
-     */
-    private $serviceList;
-
-    /**
      * Constructor
      *
      * @param string $jsonFile
      *
-     * @return void
      */
     public function __construct($jsonFile)
     {
-        $this->services = $this->loadServiceList($jsonFile);
+       $this->loadServiceList($jsonFile);
     }
 
     /**
@@ -53,7 +47,7 @@ class JsonServiceFactory implements ServiceFactoryInterface
        $services =  $this->loadJsonFile($jsonFile);
 
        foreach($services->services as $service) {
-           $this->serviceList[$service->id] = $service;
+           $this->services[$service->id] = $service;
        }
     }
 
@@ -62,18 +56,17 @@ class JsonServiceFactory implements ServiceFactoryInterface
      */
     public function create($service)
     {
-        if(!isset($this->serviceList[$service])) {
+        if(!isset($this->services[$service])) {
             throw new NotFoundException('Service not found: ' . $service);
         }
 
-        if (!class_exists($this->serviceList[$service]->class)) {
+        if (!class_exists($this->services[$service]->class)) {
             throw new ContainerException(
-                'Class does not exists: ' . $this->serviceList[$service]->class
+                'Class does not exists: ' . $this->services[$service]->class
             );
         }
 
-        $service = new \ReflectionClass($this->serviceList[$service]->class);
+        $service = new \ReflectionClass($this->services[$service]->class);
         return $service->newInstance();
-
     }
 }
