@@ -8,18 +8,16 @@ namespace Gr8abbasi\Container\Repository;
 interface ServiceRepositoryInterface
 {
     /**
-     * @param string $service
-     *
-     * @throws NotFoundException
+     * @param string $id
      *
      * @return mixed Service
      */
-    public function get($service);
+    public function get($id);
 
     /**
+     * @param string $id
      * @param string $service
      *
-     * @throws ContainerException
      */
-    public function add($service);
+    public function add($id, $service);
 }

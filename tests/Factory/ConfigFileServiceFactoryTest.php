@@ -1,15 +1,13 @@
 <?php
 
-namespace Tests;
+namespace Tests\Factory;
 
 use PHPUnit_Framework_TestCase;
-use Gr8abbasi\Container\Container;
-use Tests\DummyServices\DummyService;
 
 /**
- * Container Test
+ * ConfigFileServiceFactory Test
  */
-class ContainerTest extends PHPUnit_Framework_TestCase
+class ConfigFileServiceFactoryTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Container
@@ -31,7 +29,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      */
     public function isInstanceOfContainerInterface()
     {
-        $this->assertInstanceOf('Interop\Container\ContainerInterface', $this->container);
+        $this->assertInstanceOf(Container::class, $this->container);
     }
 
     /**
@@ -80,3 +78,4 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $container->get('foo');
     }
 }
+

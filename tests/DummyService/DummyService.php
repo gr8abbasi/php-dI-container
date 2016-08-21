@@ -1,6 +1,6 @@
 <?php
 
-namespace DummyServices;
+namespace Tests\DummyServices;
 
 class DummyService
 {

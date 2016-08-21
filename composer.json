@@ -12,7 +12,7 @@
     "autoload": {
         "psr-4": {
             "Gr8abbasi\\Container\\": "src/",
-            "DummyServices\\": "tests/dummy/"
+            "Tests\\": "tests/"
         }
 
     },
