@@ -3,6 +3,8 @@
 namespace Tests\Factory;
 
 use PHPUnit_Framework_TestCase;
+use Tests\DummyServices\DummyService;
+use Gr8abbasi\Container\Factory\JsonServiceFactory;
 
 /**
  * JsonServiceFactory Test
@@ -10,36 +12,40 @@ use PHPUnit_Framework_TestCase;
 class JsonServiceFactoryTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Container
+     * @var JsonServiceFactory
      */
-    public $container;
+    public $factory;
 
     /**
      * Setup tests
      */
     public function setUp()
     {
-        $this->container = new Container([
-            'dummy-service' => DummyService::class,
-        ]);
+        $this->factory = new JsonServiceFactory(__DIR__ . '/services.json');
     }
 
     /**
      * @test
      */
-    public function isInstanceOfContainerInterface()
+    public function isInstanceOfFactoryInterface()
     {
-        $this->assertInstanceOf(Container::class, $this->container);
+        $this->assertInstanceOf(
+            'Gr8abbasi\Container\Factory\ServiceFactoryInterface',
+            $this->factory
+        );
     }
 
     /**
      * @test
      */
-    public function canGetServiceFromContainer()
+    public function canCreateInstanceOfRequestedService()
     {
-        $input = $this->container->get('dummy-service');
+        $service = $this->factory->create('class-a');
 
-        $this->assertInstanceOf(DummyService::class, $input);
+        $this->assertInstanceOf(
+            'Tests\DummyServices\ClassA',
+            $service
+        );
     }
 
     /**
@@ -49,20 +55,7 @@ class JsonServiceFactoryTest extends PHPUnit_Framework_TestCase
      */
     public function throwsNotFoundException()
     {
-        $this->container->get('foo');
-    }
-
-    /**
-     * @test
-     * @expectedException Gr8abbasi\Container\Exception\ContainerException
-     * @expectedExceptionMessage Service should be an array with key value pair: foo
-     */
-    public function throwContainerException()
-    {
-        $container = new Container([
-            'foo' => ''
-        ]);
-        $container->get('foo');
+        $this->factory->create('foo');
     }
 
     /**
@@ -72,9 +65,10 @@ class JsonServiceFactoryTest extends PHPUnit_Framework_TestCase
      */
     public function throwContainerExceptionOnServiceNotFound()
     {
-        $container = new Container([
-            'foo' => 'FooClass\Foo'
-        ]);
-        $container->get('foo');
+        // $object = new Std();
+        // $object->id = "foo";
+        // $object->class = "FooClass\Foo";
+        //
+        // $this->factory->create('foo');
     }
 }
