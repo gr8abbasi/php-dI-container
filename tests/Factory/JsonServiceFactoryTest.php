@@ -63,12 +63,12 @@ class JsonServiceFactoryTest extends PHPUnit_Framework_TestCase
      * @expectedException Gr8abbasi\Container\Exception\ContainerException
      * @expectedExceptionMessage Class does not exists: FooClass\Foo
      */
-    public function throwContainerExceptionOnServiceNotFound()
-    {
-        // $object = new Std();
-        // $object->id = "foo";
-        // $object->class = "FooClass\Foo";
-        //
-        // $this->factory->create('foo');
-    }
+    // public function throwContainerExceptionOnServiceNotFound()
+    // {
+    //     $object = new Std();
+    //     $object->id = "foo";
+    //     $object->class = "FooClass\Foo";
+    //
+    //     $this->factory->create('foo');
+    // }
 }
