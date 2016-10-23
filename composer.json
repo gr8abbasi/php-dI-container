@@ -18,7 +18,8 @@
     },
     "require": {
         "php":">=5.5",
-        "container-interop/container-interop": "^1.1"
+        "container-interop/container-interop": "^1.1",
+        "mcustiel/php-simple-config": ">=1.2.0"
     },
     "require-dev":{
         "phpunit/phpunit": "4.8.*"
