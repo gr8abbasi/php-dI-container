@@ -2,6 +2,9 @@
 
 namespace Gr8abbasi\Container;
 
+use Mcustiel\Config\Drivers\Reader\php\Reader;
+use Mcustiel\Config\ConfigLoader;
+
 /**
  * Class ServiceLoader
  *
@@ -23,6 +26,10 @@ class ServiceLoader
         /**
          * REMOVE ME AND ADD LIBRARY CODE HERE
          */
+        $loader = new ConfigLoader($filePath, new Reader());
+        $config = $loader->load();
+        // var_dump($config);exit;
+
         $this->services = ['hello'];
         return $this->services;
     }

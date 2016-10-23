@@ -36,7 +36,7 @@ class ServiceLoaderTest extends PHPUnit_Framework_TestCase
      */
     public function canLoadServicesFromConfigFile()
     {
-        $services = $this->serviceLoader->loadServices('SomeFilePath');
+        $services = $this->serviceLoader->loadServices(__DIR__ . "/DummyServices/phpServicesConfig.php");
 
         $this->assertNotNull($services);
         $this->assertNotEmpty($services);
