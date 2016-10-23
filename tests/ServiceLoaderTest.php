@@ -5,8 +5,9 @@ namespace Tests;
 use PHPUnit_Framework_TestCase;
 use Gr8abbasi\Container\ServiceLoader;
 use Mcustiel\Config\Drivers\Reader\php\Reader as PhpReader;
-use Mcustiel\Config\Drivers\Reader\php\Reader as IniReader;
-use Mcustiel\Config\Drivers\Reader\php\Reader as JsonReader;
+use Mcustiel\Config\Drivers\Reader\ini\Reader as IniReader;
+use Mcustiel\Config\Drivers\Reader\json\Reader as JsonReader;
+use Mcustiel\Config\Drivers\Reader\yaml\Reader as YamlReader;
 
 /**
  * ServiceLoader Test
