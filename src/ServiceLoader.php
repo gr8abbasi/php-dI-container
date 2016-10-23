@@ -2,7 +2,6 @@
 
 namespace Gr8abbasi\Container;
 
-use Mcustiel\Config\Drivers\Reader\php\Reader;
 use Mcustiel\Config\ConfigLoader;
 
 /**
@@ -20,15 +19,26 @@ class ServiceLoader
     /**
      * Load Services from config files
      * using php file config library
+     *
+     * @param string $configFilePath
+     * @param ConfigReader $configReader
+     * @param CacheConfig $cacheConfig
+     *
+     * @return array $services
      */
-    public function loadServices($filePath)
+    public function loadServices(
+        $configFilePath,
+        $configReader,
+        $cacheConfig = null
+    )
     {
-        /**
-         * REMOVE ME AND ADD LIBRARY CODE HERE
-         */
-        $loader = new ConfigLoader($filePath, new Reader());
+        $loader = new ConfigLoader(
+            $configFilePath,
+            $configReader,
+            $cacheConfig
+        );
         $config = $loader->load();
-        // var_dump($config);exit;
+        // var_dump($config->getFullConfigAsArray());exit;
 
         $this->services = ['hello'];
         return $this->services;

@@ -1,19 +1,19 @@
 <?php
 
-return array(
-    'class-a' => array(
-        'class'=>'Tests\\DummyServices\\ClassA',
-    ),
-    'class-b' => array(
-        'class'=>'Tests\\DummyServices\\ClassB',
-        'arguments' => array(
+return [
+    'class-a'         => [
+        'class'       => 'Tests\\DummyServices\\ClassA',
+    ],
+    'class-b'         => [
+        'class'       => 'Tests\\DummyServices\\ClassB',
+        'arguments'   => [
             'class-a'
-        )
-    ),
-    'class-c' => array(
-        'class'=>'Tests\\DummyServices\\ClassC',
-        'arguments' => array(
+        ]
+    ],
+    'class-c'         => [
+        'class'       => 'Tests\\DummyServices\\ClassC',
+        'arguments'   => [
             'class-b'
-        )
-    ),
-);
+        ]
+    ],
+];

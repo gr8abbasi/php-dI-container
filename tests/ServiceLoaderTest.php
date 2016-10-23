@@ -4,6 +4,9 @@ namespace Tests;
 
 use PHPUnit_Framework_TestCase;
 use Gr8abbasi\Container\ServiceLoader;
+use Mcustiel\Config\Drivers\Reader\php\Reader as PhpReader;
+use Mcustiel\Config\Drivers\Reader\php\Reader as IniReader;
+use Mcustiel\Config\Drivers\Reader\php\Reader as JsonReader;
 
 /**
  * ServiceLoader Test
@@ -34,9 +37,12 @@ class ServiceLoaderTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function canLoadServicesFromConfigFile()
+    public function canLoadServicesFromPhpConfigFile()
     {
-        $services = $this->serviceLoader->loadServices(__DIR__ . "/DummyServices/phpServicesConfig.php");
+        $services = $this->serviceLoader->loadServices(
+            __DIR__ . "/DummyServices/phpServicesConfig.php",
+            new PhpReader()
+        );
 
         $this->assertNotNull($services);
         $this->assertNotEmpty($services);
