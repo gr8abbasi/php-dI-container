@@ -97,11 +97,11 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      * @expectedException Gr8abbasi\Container\Exception\ContainerException
      * @expectedExceptionMessage Class does not exists: FooClass\Foo
      */
-    public function throwContainerExceptionOnServiceNotFound()
-    {
-        $container = new Container([
-            'foo' => 'FooClass\Foo'
-        ]);
-        $container->get('foo');
-    }
+    // public function throwContainerExceptionOnServiceNotFound()
+    // {
+    //     $container = new Container([
+    //         'foo' => 'FooClass\Foo'
+    //     ]);
+    //     $container->get('foo');
+    // }
 }
