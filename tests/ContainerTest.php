@@ -4,7 +4,8 @@ namespace Tests;
 
 use PHPUnit_Framework_TestCase;
 use Gr8abbasi\Container\Container;
-use Tests\DummyServices\DummyService;
+use Gr8abbasi\Container\ServiceLoader;
+use Tests\DummyServices\ClassA;
 
 /**
  * Container Test
@@ -17,13 +18,34 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     public $container;
 
     /**
+     * @var array $services
+     */
+    public $serviceLoader;
+
+    /**
      * Setup tests
      */
     public function setUp()
     {
-        $this->container = new Container([
-            'dummy-service' => DummyService::class,
-        ]);
+        $this->services = [
+            'class-a'         => [
+                'class'       => 'Tests\\DummyServices\\ClassA',
+            ],
+            'class-b'         => [
+                'class'       => 'Tests\\DummyServices\\ClassB',
+                'arguments'   => [
+                    'class-a'
+                ]
+            ],
+            'class-c'         => [
+                'class'       => 'Tests\\DummyServices\\ClassC',
+                'arguments'   => [
+                    'class-a',
+                    'class-b'
+                ]
+            ],
+        ];
+        $this->container = new Container($this->services);
     }
 
     /**
@@ -39,9 +61,12 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      */
     public function canGetServiceFromContainer()
     {
-        $input = $this->container->get('dummy-service');
+        foreach ($this->services as $id => $service) {
+            // var_dump($service['class']);exit;
+            $input = $this->container->get($id);
 
-        $this->assertInstanceOf(DummyService::class, $input);
+            $this->assertInstanceOf($service['class'], $input);
+        }
     }
 
     /**

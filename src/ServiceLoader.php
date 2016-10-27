@@ -30,18 +30,15 @@ class ServiceLoader
         $configFilePath,
         $configReader,
         $cacheConfig = null
-    )
-    {
+    ) {
         $loader = new ConfigLoader(
             $configFilePath,
             $configReader,
             $cacheConfig
         );
-        $config = $loader->load();
-        // var_dump($config->getFullConfigAsArray());exit;
+        $services = $loader->load();
+        $this->services = $services->getFullConfigAsArray();
 
-        $this->services = ['hello'];
         return $this->services;
     }
-
 }

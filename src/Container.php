@@ -71,13 +71,13 @@ class Container implements ContainerInterface
             );
         }
 
-        if (!class_exists($this->services[$name])) {
+        if (!class_exists($this->services[$name]['class'])) {
             throw new ContainerException(
-                'Class does not exists: ' . $this->services[$name]
+                'Class does not exists: ' . $this->services[$name]['class']
             );
         }
 
-        $service = new \ReflectionClass($this->services[$name]);
+        $service = new \ReflectionClass($this->services[$name]['class']);
         return $service->newInstance();
     }
 }
