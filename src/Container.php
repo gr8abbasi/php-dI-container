@@ -5,6 +5,8 @@ namespace Gr8abbasi\Container;
 use Interop\Container\ContainerInterface;
 use Gr8abbasi\Container\Exception\NotFoundException;
 use Gr8abbasi\Container\Exception\ContainerException;
+use Gr8abbasi\Container\Repository\InMemoryServiceRepository;
+use Gr8abbasi\Container\Factory\ConfigFileServiceFactory;
 
 /**
  * Container Class
@@ -22,14 +24,29 @@ class Container implements ContainerInterface
     private $serviceStore;
 
     /**
+     * @var ServiceRepositoryInterface
+     */
+    private $repository;
+
+    /**
+     * @var ServiceFactoryInterface
+     */
+    private $factory;
+
+    /**
      * Constructor for Container
      *
      * @param array $services
      */
-    public function __construct(array $services = [])
-    {
+    public function __construct(
+        array $services = [],
+        ServiceRepositoryInterface $repository = null,
+        ServiceFactoryInterface $factory = null
+    ) {
         $this->services = $services;
         $this->serviceStore = [];
+        $this->repository = $repository ?: new InMemoryServiceRepository();
+        // $this->factory = $factory ?: new ConfigFileServiceFactory();
     }
 
     /**

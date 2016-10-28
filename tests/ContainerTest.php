@@ -4,8 +4,6 @@ namespace Tests;
 
 use PHPUnit_Framework_TestCase;
 use Gr8abbasi\Container\Container;
-use Gr8abbasi\Container\ServiceLoader;
-use Tests\DummyServices\ClassA;
 
 /**
  * Container Test
@@ -18,7 +16,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     public $container;
 
     /**
-     * @var array $services
+     * @var array
      */
     public $serviceLoader;
 
@@ -28,21 +26,21 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->services = [
-            'class-a'         => [
-                'class'       => 'Tests\\DummyServices\\ClassA',
+            'class-a' => [
+                'class' => 'Tests\\DummyServices\\ClassA',
             ],
-            'class-b'         => [
-                'class'       => 'Tests\\DummyServices\\ClassB',
-                'arguments'   => [
-                    'class-a'
-                ]
-            ],
-            'class-c'         => [
-                'class'       => 'Tests\\DummyServices\\ClassC',
-                'arguments'   => [
+            'class-b' => [
+                'class'     => 'Tests\\DummyServices\\ClassB',
+                'arguments' => [
                     'class-a',
-                    'class-b'
-                ]
+                ],
+            ],
+            'class-c' => [
+                'class'     => 'Tests\\DummyServices\\ClassC',
+                'arguments' => [
+                    'class-a',
+                    'class-b',
+                ],
             ],
         ];
         $this->container = new Container($this->services);
@@ -62,9 +60,14 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     public function canGetServiceFromContainer()
     {
         foreach ($this->services as $id => $service) {
-            // var_dump($service['class']);exit;
-            $input = $this->container->get($id);
+            if (isset($service['arguments'])) {
+                foreach ($service['arguments'] as $argument) {
+                    $input = $this->container->get($argument);
+                    $this->assertInstanceOf($this->services[$argument]['class'], $input);
+                }
+            }
 
+            $input = $this->container->get($id);
             $this->assertInstanceOf($service['class'], $input);
         }
     }
@@ -87,7 +90,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     public function throwContainerException()
     {
         $container = new Container([
-            'foo' => ''
+            'foo' => '',
         ]);
         $container->get('foo');
     }
@@ -95,13 +98,19 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      * @expectedException Gr8abbasi\Container\Exception\ContainerException
-     * @expectedExceptionMessage Class does not exists: FooClass\Foo
+     * @expectedExceptionMessage Class does not exists: Foo\FooService\ClassFoo
      */
-    // public function throwContainerExceptionOnServiceNotFound()
-    // {
-    //     $container = new Container([
-    //         'foo' => 'FooClass\Foo'
-    //     ]);
-    //     $container->get('foo');
-    // }
+    public function throwContainerExceptionOnServiceNotFound()
+    {
+        $container = new Container([
+            'foo' => [
+                'class'     => 'Foo\\FooService\\ClassFoo',
+                'arguments' => [
+                    'class-a',
+                    'class-b',
+                ],
+            ],
+        ]);
+        $container->get('foo');
+    }
 }

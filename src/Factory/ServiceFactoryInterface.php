@@ -14,5 +14,5 @@ interface ServiceFactoryInterface
      *
      * @return mixed created service
      */
-    public function create($service);
+    public function create(array $service);
 }
