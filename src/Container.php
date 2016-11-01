@@ -53,25 +53,17 @@ class Container implements ContainerInterface
         }
 
         if (is_null($this->repository->get($name))) {
-            // foreach($this->services[$name] as $id => $service){
 
             if (isset($this->services[$name]['arguments'])) {
                 foreach ($this->services[$name]['arguments'] as $argument) {
-                    // $input = $this->container->get($argument);
                     /**
                      * TODO
                      * Check if dependency already resolved or not
                      */
-                    $this->validate($name);
-                    $service = $this->factory->create($this->services[$argument]['class']);
-                    $this->repository->add($name, $service);
+                    $this->createService($name);
                 }
             }
-
-            // }
-            $this->validate($name);
-            $service = $this->factory->create($this->services[$name]['class']);
-            $this->repository->add($name, $service);
+            $this->createService($name);
         }
 
         return $this->repository->get($name);
@@ -83,6 +75,20 @@ class Container implements ContainerInterface
     public function has($name)
     {
         return isset($this->services[$name]);
+    }
+
+    /**
+     * Create service and add to the
+     * repository
+     *
+     * @param string $name
+     *
+     * @return void
+     */
+    private function createService($name){
+        $this->validate($name);
+        $service = $this->factory->create($this->services[$name]['class']);
+        $this->repository->add($name, $service);
     }
 
     /**
