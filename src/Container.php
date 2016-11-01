@@ -5,8 +5,8 @@ namespace Gr8abbasi\Container;
 use Interop\Container\ContainerInterface;
 use Gr8abbasi\Container\Exception\NotFoundException;
 use Gr8abbasi\Container\Exception\ContainerException;
-use Gr8abbasi\Container\Repository\InMemoryServiceRepository;
 use Gr8abbasi\Container\Factory\ConfigFileServiceFactory;
+use Gr8abbasi\Container\Repository\InMemoryServiceRepository;
 
 /**
  * Container Class
@@ -17,11 +17,6 @@ class Container implements ContainerInterface
      * @var array
      */
     private $services;
-
-    /**
-     * @var array
-     */
-    private $serviceStore;
 
     /**
      * @var ServiceRepositoryInterface
@@ -44,9 +39,8 @@ class Container implements ContainerInterface
         ServiceFactoryInterface $factory = null
     ) {
         $this->services = $services;
-        $this->serviceStore = [];
         $this->repository = $repository ?: new InMemoryServiceRepository();
-        // $this->factory = $factory ?: new ConfigFileServiceFactory();
+        $this->factory = $factory ?: new ConfigFileServiceFactory();
     }
 
     /**
@@ -58,11 +52,29 @@ class Container implements ContainerInterface
             throw new NotFoundException('Service not found: ' . $name);
         }
 
-        if (!isset($this->serviceStore[$name])) {
-            $this->serviceStore[$name] = $this->createService($name);
+        if (is_null($this->repository->get($name))) {
+            // foreach($this->services[$name] as $id => $service){
+
+            if (isset($this->services[$name]['arguments'])) {
+                foreach ($this->services[$name]['arguments'] as $argument) {
+                    // $input = $this->container->get($argument);
+                    /**
+                     * TODO
+                     * Check if dependency already resolved or not
+                     */
+                    $this->validate($name);
+                    $service = $this->factory->create($this->services[$argument]['class']);
+                    $this->repository->add($name, $service);
+                }
+            }
+
+            // }
+            $this->validate($name);
+            $service = $this->factory->create($this->services[$name]['class']);
+            $this->repository->add($name, $service);
         }
 
-        return $this->serviceStore[$name];
+        return $this->repository->get($name);
     }
 
     /**
@@ -74,13 +86,14 @@ class Container implements ContainerInterface
     }
 
     /**
-     * Create service instance
+     * Validate requested service before
+     * attempt to resolve
      *
      * @param string $name
      *
-     * @return mixed created service
+     * @return void
      */
-    private function createService($name)
+    private function validate($name)
     {
         if (!isset($this->services[$name]) || empty($this->services[$name])) {
             throw new ContainerException(
@@ -93,8 +106,5 @@ class Container implements ContainerInterface
                 'Class does not exists: ' . $this->services[$name]['class']
             );
         }
-
-        $service = new \ReflectionClass($this->services[$name]['class']);
-        return $service->newInstance();
     }
 }

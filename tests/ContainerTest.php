@@ -106,8 +106,8 @@ class ContainerTest extends PHPUnit_Framework_TestCase
             'foo' => [
                 'class'     => 'Foo\\FooService\\ClassFoo',
                 'arguments' => [
-                    'class-a',
-                    'class-b',
+                    'potato',
+                    'tomato',
                 ],
             ],
         ]);

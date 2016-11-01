@@ -14,7 +14,7 @@ class InMemoryServiceRepository implements ServiceRepositoryInterface
      */
     public function get($serviceId)
     {
-        if(!isset($serviceId)){
+        if(!isset($this->serviceStore[$serviceId]) || !isset($serviceId)){
             return Null;
         }
 

@@ -10,9 +10,9 @@ interface ServiceFactoryInterface
     /**
      * Creates desired service instance
      *
-     * @param array $service
+     * @param string $service
      *
      * @return mixed created service
      */
-    public function create(array $service);
+    public function create($service);
 }

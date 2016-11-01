@@ -40,38 +40,11 @@ class ConfigFileServiceFactoryTest extends PHPUnit_Framework_TestCase
      */
     public function canCreateInstanceOfRequestedService()
     {
-        // $service = $this->factory->create([
-        //     'foo' => 'Tests\DummyServices\ClassA'
-        // ]);
-        // // var_dump($service);exit;
-        //
-        // $this->assertInstanceOf(
-        //     'Tests\DummyServices\ClassA',
-        //     $service
-        // );
+        $service = $this->factory->create('Tests\DummyServices\ClassA');
+
+        $this->assertInstanceOf(
+            'Tests\DummyServices\ClassA',
+            $service
+        );
     }
-
-    // /**
-    //  * @test
-    //  * @expectedException Gr8abbasi\Container\Exception\NotFoundException
-    //  * @expectedExceptionMessage Service not found: foo
-    //  */
-    // public function throwsNotFoundException()
-    // {
-    //     $this->factory->create('foo');
-    // }
-
-    /**
-     * @test
-     * @expectedException Gr8abbasi\Container\Exception\ContainerException
-     * @expectedExceptionMessage Class does not exists: FooClass\Foo
-     */
-    // public function throwContainerExceptionOnServiceNotFound()
-    // {
-    //     $object = new Std();
-    //     $object->id = "foo";
-    //     $object->class = "FooClass\Foo";
-    //
-    //     $this->factory->create('foo');
-    // }
 }
