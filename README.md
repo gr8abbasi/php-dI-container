@@ -3,8 +3,9 @@
 # Note: Work in Progress! Not Completed yet!
 
 PHP DI Container resolves dependencies for php application using Dependency Injection.
-And it provides a simple container for all depnedencies as well. Good thing about this
-container is you can specify dependencies in many formats:
+And it provides a simple container for all depnedencies as well. It can take dependencies
+as argument to other classes and resolve them efficiently. Good thing about container is 
+you can specify dependencies in many formats:
 #PHP
 #JSON
 #YAML
@@ -47,6 +48,30 @@ use Mcustiel\Config\Drivers\Reader\php\Reader as PhpReader;
 use Mcustiel\Config\Drivers\Reader\ini\Reader as IniReader;
 use Mcustiel\Config\Drivers\Reader\json\Reader as JsonReader;
 use Mcustiel\Config\Drivers\Reader\yaml\Reader as YamlReader;
+```
+PHP configuration file looks like something below and you can see it contains
+others classes as dependencies as well.
+
+```
+<?php
+
+return [
+    'class-a'         => [
+        'class'       => 'Tests\\DummyServices\\ClassA',
+    ],
+    'class-b'         => [
+        'class'       => 'Tests\\DummyServices\\ClassB',
+        'arguments'   => [
+            'class-a'
+        ]
+    ],
+    'class-c'         => [
+        'class'       => 'Tests\\DummyServices\\ClassC',
+        'arguments'   => [
+            'class-b'
+        ]
+    ],
+];
 ```
 
 ```
