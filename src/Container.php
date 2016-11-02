@@ -53,7 +53,6 @@ class Container implements ContainerInterface
         }
 
         if (is_null($this->repository->get($name))) {
-
             if (isset($this->services[$name]['arguments'])) {
                 foreach ($this->services[$name]['arguments'] as $argument) {
                     /**
@@ -85,7 +84,8 @@ class Container implements ContainerInterface
      *
      * @return void
      */
-    private function createService($name){
+    private function createService($name)
+    {
         $this->validate($name);
         $service = $this->factory->create($this->services[$name]['class']);
         $this->repository->add($name, $service);

@@ -43,7 +43,7 @@ Add following dependency to your `composer.json`
 Create a configuration file in the desired formate and use desired reader
 by default service loader will use php config file reader
 
-```
+```php
 use Mcustiel\Config\Drivers\Reader\php\Reader as PhpReader;
 use Mcustiel\Config\Drivers\Reader\ini\Reader as IniReader;
 use Mcustiel\Config\Drivers\Reader\json\Reader as JsonReader;
@@ -52,7 +52,7 @@ use Mcustiel\Config\Drivers\Reader\yaml\Reader as YamlReader;
 PHP configuration file looks like something below and you can see it contains
 others classes as dependencies as well.
 
-```
+```php
 <?php
 
 return [
@@ -74,8 +74,13 @@ return [
 ];
 ```
 
-```
-$services = new ServiceLoader();
+```php
+$loader = new ServiceLoader();
+
+$services = $loader->loadServices(
+    __DIR__ . "/DummyServices/phpServicesConfig.php",
+    new PhpReader()
+    );
 
 $container = new Container($services);
 
