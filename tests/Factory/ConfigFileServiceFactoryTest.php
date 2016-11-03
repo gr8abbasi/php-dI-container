@@ -3,6 +3,7 @@
 namespace Tests\Factory;
 
 use PHPUnit_Framework_TestCase;
+use Gr8abbasi\Container\Container;
 use Tests\DummyServices\DummyService;
 use Gr8abbasi\Container\Factory\ConfigFileServiceFactory;
 
@@ -17,11 +18,42 @@ class ConfigFileServiceFactoryTest extends PHPUnit_Framework_TestCase
     public $factory;
 
     /**
+     * @var Container
+     */
+    public $container;
+
+    /**
+     * @var array $services
+     */
+    public $services;
+
+    /**
      * Setup tests
      */
     public function setUp()
     {
+        $this->services = [
+            'class-a' => [
+                'class' => 'Tests\\DummyServices\\ClassA',
+            ],
+            'class-b' => [
+                'class'     => 'Tests\\DummyServices\\ClassB',
+                'arguments' => [
+                    'class-a',
+                ],
+            ],
+            'class-c' => [
+                'class'     => 'Tests\\DummyServices\\ClassC',
+                'arguments' => [
+                    'class-a',
+                    'class-b',
+                ],
+            ],
+        ];
+
         $this->factory = new ConfigFileServiceFactory();
+        $this->container = new Container($this->services);
+
     }
 
     /**
@@ -40,10 +72,13 @@ class ConfigFileServiceFactoryTest extends PHPUnit_Framework_TestCase
      */
     public function canCreateInstanceOfRequestedService()
     {
-        $service = $this->factory->create('Tests\DummyServices\ClassA');
+        $service = $this->factory->create(
+            $this->services['class-c'],
+            $this->container
+        );
 
         $this->assertInstanceOf(
-            'Tests\DummyServices\ClassA',
+            'Tests\DummyServices\ClassC',
             $service
         );
     }

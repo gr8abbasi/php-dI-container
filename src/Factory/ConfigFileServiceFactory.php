@@ -2,6 +2,7 @@
 
 namespace Gr8abbasi\Container\Factory;
 
+use Gr8abbasi\Container\Container;
 use Gr8abbasi\Container\Factory\ServiceFactoryInterface;
 
 /**
@@ -10,11 +11,35 @@ use Gr8abbasi\Container\Factory\ServiceFactoryInterface;
 class ConfigFileServiceFactory implements ServiceFactoryInterface
 {
     /**
+     * Resolve the service arguments
+     *
+     * @param array $serviceArguments
+     * @param Container $container
+     *
+     * @return mixed $service
+     */
+    private function resolveArguments($serviceArguments, Container $container)
+    {
+        $arguments = [];
+
+        if (!empty($serviceArguments)) {
+            foreach ($serviceArguments as $argument) {
+                $arguments[] = $container->get($argument);
+            }
+        }
+        return $arguments;
+    }
+
+    /**
      * @inheritdoc
      */
-    public function create($service)
+    public function create($service, Container $container)
     {
-        $class = new \ReflectionClass($service);
-        return $class->newInstance();
+        $class = new \ReflectionClass($service['class']);
+
+        return $class->newInstanceArgs(
+            $this->resolveArguments($service['arguments'],
+            $container
+        ));
     }
 }
