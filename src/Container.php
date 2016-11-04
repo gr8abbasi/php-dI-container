@@ -29,6 +29,11 @@ class Container implements ContainerInterface
     private $factory;
 
     /**
+     * @var array
+     */
+    private $resolvedServices;
+
+    /**
      * Constructor for Container
      *
      * @param array $services
@@ -46,26 +51,17 @@ class Container implements ContainerInterface
     /**
      * {@inheritdoc}
      */
-    public function get($name)
+    public function get($id)
     {
-        if (!$this->has($name)) {
-            throw new NotFoundException('Service not found: ' . $name);
+        if (!$this->has($id)) {
+            throw new NotFoundException('Service not found: ' . $id);
         }
 
-        if (is_null($this->repository->get($name))) {
-            if (isset($this->services[$name]['arguments'])) {
-                foreach ($this->services[$name]['arguments'] as $argument) {
-                    /**
-                     * TODO
-                     * Check if dependency already resolved or not
-                     */
-                    $this->createService($name);
-                }
-            }
-            $this->createService($name);
+        if (is_null($this->repository->get($id))) {
+            $this->createService($id, $this);
         }
 
-        return $this->repository->get($name);
+        return $this->repository->get($id);
     }
 
     /**
@@ -84,11 +80,13 @@ class Container implements ContainerInterface
      *
      * @return void
      */
-    private function createService($name)
+    private function createService($id, $container)
     {
-        $this->validate($name);
-        $service = $this->factory->create($this->services[$name]['class']);
-        $this->repository->add($name, $service);
+        $this->validate($id);
+        $this->resolvedServices[$id] = true;
+        $service = $this->factory->create($this->services[$id], $container);
+        unset($this->resolvedServices[$id]);
+        $this->repository->add($id, $service);
     }
 
     /**
@@ -110,6 +108,12 @@ class Container implements ContainerInterface
         if (!class_exists($this->services[$name]['class'])) {
             throw new ContainerException(
                 'Class does not exists: ' . $this->services[$name]['class']
+            );
+        }
+
+        if (isset($this->currentServices[$name])) {
+            throw new CircularDependencyException(
+                'Circular dependency detected: '. key($this->resolvedServices[$name]) . '=> {$name}'
             );
         }
     }

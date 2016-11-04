@@ -59,17 +59,8 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      */
     public function canGetServiceFromContainer()
     {
-        foreach ($this->services as $id => $service) {
-            if (isset($service['arguments'])) {
-                foreach ($service['arguments'] as $argument) {
-                    $input = $this->container->get($argument);
-                    $this->assertInstanceOf($this->services[$argument]['class'], $input);
-                }
-            }
-
-            $input = $this->container->get($id);
-            $this->assertInstanceOf($service['class'], $input);
-        }
+        $input = $this->container->get('class-c');
+        $this->assertInstanceOf($this->services['class-c']['class'], $input);
     }
 
     /**

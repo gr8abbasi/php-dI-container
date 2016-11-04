@@ -22,11 +22,10 @@ class ConfigFileServiceFactory implements ServiceFactoryInterface
     {
         $arguments = [];
 
-        if (!empty($serviceArguments)) {
-            foreach ($serviceArguments as $argument) {
-                $arguments[] = $container->get($argument);
-            }
+        foreach ($serviceArguments as $argument) {
+            $arguments[] = $container->get($argument);
         }
+
         return $arguments;
     }
 
@@ -37,9 +36,13 @@ class ConfigFileServiceFactory implements ServiceFactoryInterface
     {
         $class = new \ReflectionClass($service['class']);
 
+        $arguments = isset($service['arguments'])? $service['arguments'] : [] ;
+
         return $class->newInstanceArgs(
-            $this->resolveArguments($service['arguments'],
-            $container
-        ));
+            $this->resolveArguments(
+                $arguments,
+                $container
+            )
+        );
     }
 }
