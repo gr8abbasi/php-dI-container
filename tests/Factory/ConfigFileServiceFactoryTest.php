@@ -82,4 +82,23 @@ class ConfigFileServiceFactoryTest extends PHPUnit_Framework_TestCase
             $service
         );
     }
+
+    /**
+     * @test
+     * @expectedException Gr8abbasi\Container\Exception\NotFoundException
+     * @expectedExceptionMessage Class does not exists: Foo\FooService\ClassFoo
+     */
+    public function throwClassNotFoundException()
+    {
+        $container = new Container([
+            'foo' => [
+                'class'     => 'Foo\\FooService\\ClassFoo',
+                'arguments' => [
+                    'potato',
+                    'tomato',
+                ],
+            ],
+        ]);
+        $container->get('foo');
+    }
 }

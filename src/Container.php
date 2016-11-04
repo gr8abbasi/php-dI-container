@@ -7,6 +7,7 @@ use Gr8abbasi\Container\Exception\NotFoundException;
 use Gr8abbasi\Container\Exception\ContainerException;
 use Gr8abbasi\Container\Factory\ConfigFileServiceFactory;
 use Gr8abbasi\Container\Repository\InMemoryServiceRepository;
+use Gr8abbasi\Container\Exception\CircularDependencyException;
 
 /**
  * Container Class
@@ -76,7 +77,8 @@ class Container implements ContainerInterface
      * Create service and add to the
      * repository
      *
-     * @param string $name
+     * @param string $id
+     * @param Container $container
      *
      * @return void
      */
@@ -105,15 +107,9 @@ class Container implements ContainerInterface
             );
         }
 
-        if (!class_exists($this->services[$name]['class'])) {
-            throw new ContainerException(
-                'Class does not exists: ' . $this->services[$name]['class']
-            );
-        }
-
-        if (isset($this->currentServices[$name])) {
+        if (isset($this->resolvedServices[$name])) {
             throw new CircularDependencyException(
-                'Circular dependency detected: '. key($this->resolvedServices[$name]) . '=> {$name}'
+                'Circular dependency detected: => ' . $name
             );
         }
     }

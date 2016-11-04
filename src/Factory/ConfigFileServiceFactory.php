@@ -3,6 +3,7 @@
 namespace Gr8abbasi\Container\Factory;
 
 use Gr8abbasi\Container\Container;
+use Gr8abbasi\Container\Exception\NotFoundException;
 use Gr8abbasi\Container\Factory\ServiceFactoryInterface;
 
 /**
@@ -34,9 +35,14 @@ class ConfigFileServiceFactory implements ServiceFactoryInterface
      */
     public function create($service, Container $container)
     {
-        $class = new \ReflectionClass($service['class']);
+        if (!class_exists($service['class'])) {
+            throw new NotFoundException(
+                'Class does not exists: ' . $service['class']
+            );
+        }
 
-        $arguments = isset($service['arguments'])? $service['arguments'] : [] ;
+        $class = new \ReflectionClass($service['class']);
+        $arguments = isset($service['arguments']) ? $service['arguments'] : [] ;
 
         return $class->newInstanceArgs(
             $this->resolveArguments(

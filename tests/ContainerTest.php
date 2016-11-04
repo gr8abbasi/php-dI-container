@@ -88,20 +88,27 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException Gr8abbasi\Container\Exception\ContainerException
-     * @expectedExceptionMessage Class does not exists: Foo\FooService\ClassFoo
+     * @expectedException Gr8abbasi\Container\Exception\CircularDependencyException
+     * @expectedExceptionMessage Circular dependency detected: => class-c
      */
-    public function throwContainerExceptionOnServiceNotFound()
+    public function throwCircularDependencyException()
     {
-        $container = new Container([
-            'foo' => [
-                'class'     => 'Foo\\FooService\\ClassFoo',
+        $services = [
+            'class-b' => [
+                'class'     => 'Tests\\DummyServices\\ClassB',
                 'arguments' => [
-                    'potato',
-                    'tomato',
+                    'class-c',
                 ],
             ],
-        ]);
-        $container->get('foo');
+            'class-c' => [
+                'class'     => 'Tests\\DummyServices\\ClassC',
+                'arguments' => [
+                    'class-b',
+                ],
+            ],
+        ];
+
+        $container = new Container($services);
+        $container->get('class-c');
     }
 }
