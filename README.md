@@ -1,15 +1,14 @@
 # php-di-container
 
-# Note: Work in Progress! Not Completed yet!
-
 PHP DI Container resolves dependencies for php application using Dependency Injection.
 And it provides a simple container for all depnedencies as well. It can take dependencies
 as argument to other classes and resolve them efficiently. Good thing about container is 
 you can specify dependencies in many formats:
-#PHP
-#JSON
-#YAML
-#INI
+
+##PHP
+##JSON
+##YAML
+##INI
 
 PHP DI Container is capable of reading configuration from above four formats and load
 them as services to the container using lazy loading using [PHP Simple Config](https://github.com/mcustiel/php-simple-config)
