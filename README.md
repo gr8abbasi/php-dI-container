@@ -6,8 +6,8 @@ PHP DI Container resolves dependencies for php application using Dependency Inje
 And it provides a simple container for all depnedencies as well. It can take dependencies
 as argument to other classes and resolve them efficiently. Good thing about container is 
 you can specify dependencies in many formats:
-#PHP
-#JSON
+#[PHP](#php-example)
+#[JSON](https://github.com/gr8abbasi/php-di-container#json-example)
 #YAML
 #INI
 
