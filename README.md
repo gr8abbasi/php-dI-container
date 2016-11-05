@@ -52,6 +52,8 @@ use Mcustiel\Config\Drivers\Reader\yaml\Reader as YamlReader;
 PHP configuration file looks like something below and you can see it contains
 others classes as dependencies as well.
 
+# PHP Example:
+
 ```php
 <?php
 
@@ -78,7 +80,7 @@ return [
 $loader = new ServiceLoader();
 
 $services = $loader->loadServices(
-    __DIR__ . "/DummyServices/phpServicesConfig.php",
+    __DIR__ . "/Fixtures/phpServicesConfig.php",
     new PhpReader()
     );
 
@@ -86,5 +88,99 @@ $container = new Container($services);
 
 // To get services from container
 $service = $container->get('foo');
+
+```
+
+# JSON Example:
+
+```json
+
+{
+    "services": [
+        {
+            "id": "class-a",
+            "class": "Tests\\DummyServices\\ClassA"
+        },
+        {
+            "id": "class-b",
+            "class": "Tests\\DummyServices\\ClassB",
+            "arguments": [
+                {
+                    "id": "class-a"
+                }
+            ]
+        },
+        {
+            "id": "class-c",
+            "class": "Tests\\DummyServices\\ClassC",
+            "arguments": [
+                {
+                    "id": "class-a",
+                    "id": "class-b"
+                }
+            ]
+        }
+    ]
+}
+
+```
+
+```php
+
+$services = $loader->loadServices(
+    __DIR__ . "/Fixtures/jsonServicesConfig.json",
+    new JsonReader()
+    );
+
+```
+
+# YAML Example:
+
+```yml
+
+SERVICES:
+  class-a:
+    class: Tests\\DummyServices\\ClassA
+  class-b:
+    class: Tests\\DummyServices\\ClassB
+    arguments:
+      class: class-a
+  class-c:
+    class: Tests\\DummyServices\\ClassC
+    arguments:
+      class: class-a
+      class: class-b
+
+```
+
+```php
+
+$services = $loader->loadServices(
+    __DIR__ . "/Fixtures/yamlServicesConfig.yml",
+    new YamlReader()
+    );
+
+```
+
+# INI Example:
+
+```ini
+
+[SERVICES]
+class-a.class = Tests\\DummyServices\\ClassA
+class-b.class = Tests\\DummyServices\\ClassB
+class-b.arguments = class-a
+class-c.class = Tests\\DummyServices\\ClassC
+class-c.arguments = class-a
+class-c.arguments = class-b
+
+```
+
+```php
+
+$services = $loader->loadServices(
+    __DIR__ . "/Fixtures/iniServicesConfig.ini",
+    new IniReader()
+    );
 
 ```

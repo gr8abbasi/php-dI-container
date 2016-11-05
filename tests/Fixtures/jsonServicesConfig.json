@@ -1,0 +1,27 @@
+{
+    "services": [
+        {
+            "id": "class-a",
+            "class": "Tests\\DummyServices\\ClassA"
+        },
+        {
+            "id": "class-b",
+            "class": "Tests\\DummyServices\\ClassB",
+            "arguments": [
+                {
+                    "id": "class-a"
+                }
+            ]
+        },
+        {
+            "id": "class-c",
+            "class": "Tests\\DummyServices\\ClassC",
+            "arguments": [
+                {
+                    "id": "class-a",
+                    "id": "class-b"
+                }
+            ]
+        }
+    ]
+}

@@ -2,9 +2,9 @@
 
 namespace Tests\Factory;
 
+use Tests\DummyServices;
 use PHPUnit_Framework_TestCase;
 use Gr8abbasi\Container\Container;
-use Tests\DummyServices\DummyService;
 use Gr8abbasi\Container\Factory\ConfigFileServiceFactory;
 
 /**
@@ -77,6 +77,11 @@ class ConfigFileServiceFactoryTest extends PHPUnit_Framework_TestCase
             $this->container
         );
 
+        $classA = new DummyServices\ClassA;
+        $classB = new DummyServices\ClassB($classA);
+        $object = new DummyServices\ClassC($classA, $classB);
+
+        $this->assertEquals($service, $object);
         $this->assertInstanceOf(
             'Tests\DummyServices\ClassC',
             $service

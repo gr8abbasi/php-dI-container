@@ -42,7 +42,7 @@ class ConfigFileServiceFactory implements ServiceFactoryInterface
         }
 
         $class = new \ReflectionClass($service['class']);
-        $arguments = isset($service['arguments']) ? $service['arguments'] : [] ;
+        $arguments = isset($service['arguments']) ? $service['arguments'] : [];
 
         return $class->newInstanceArgs(
             $this->resolveArguments(

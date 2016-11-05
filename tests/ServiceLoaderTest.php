@@ -41,11 +41,53 @@ class ServiceLoaderTest extends PHPUnit_Framework_TestCase
     public function canLoadServicesFromPhpConfigFile()
     {
         $services = $this->serviceLoader->loadServices(
-            __DIR__ . "/DummyServices/phpServicesConfig.php",
+            __DIR__ . "/Fixtures/phpServicesConfig.php",
             new PhpReader()
         );
 
-        $this->assertNotNull($services);
+        $this->assertContainsOnly('array', $services);
+        $this->assertNotEmpty($services);
+    }
+
+    /**
+     * @test
+     */
+    public function canLoadServicesFromJsonConfigFile()
+    {
+        $services = $this->serviceLoader->loadServices(
+            __DIR__ . "/Fixtures/jsonServicesConfig.json",
+            new JsonReader()
+        );
+
+        $this->assertContainsOnly('array', $services);
+        $this->assertNotEmpty($services);
+    }
+
+    /**
+     * @test
+     */
+    public function canLoadServicesFromYamlConfigFile()
+    {
+        $services = $this->serviceLoader->loadServices(
+            __DIR__ . "/Fixtures/yamlServicesConfig.yml",
+            new YamlReader()
+        );
+
+        $this->assertContainsOnly('array', $services);
+        $this->assertNotEmpty($services);
+    }
+
+    /**
+     * @test
+     */
+    public function canLoadServicesFromIniConfigFile()
+    {
+        $services = $this->serviceLoader->loadServices(
+            __DIR__ . "/Fixtures/iniServicesConfig.ini",
+            new IniReader()
+        );
+
+        $this->assertContainsOnly('array', $services);
         $this->assertNotEmpty($services);
     }
 }

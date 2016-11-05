@@ -4,6 +4,7 @@ namespace Tests;
 
 use PHPUnit_Framework_TestCase;
 use Gr8abbasi\Container\Container;
+use Tests\DummyServices\phpServicesConfig;
 
 /**
  * Container Test
@@ -19,6 +20,11 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      * @var array
      */
     public $serviceLoader;
+
+    /**
+     * @var array
+     */
+    public $services;
 
     /**
      * Setup tests

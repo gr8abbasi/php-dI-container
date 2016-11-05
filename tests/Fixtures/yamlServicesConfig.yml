@@ -1,0 +1,12 @@
+SERVICES:
+  class-a:
+    class: Tests\\DummyServices\\ClassA
+  class-b:
+    class: Tests\\DummyServices\\ClassB
+    arguments:
+      class: class-a
+  class-c:
+    class: Tests\\DummyServices\\ClassC
+    arguments:
+      class: class-a
+      class: class-b

@@ -1,7 +1,7 @@
-<phpunit bootstrap="tests/autoload.php">
+<phpunit colors="true" bootstrap="./tests/autoload.php">
   <testsuites>
     <testsuite name="php-di-contianer">
-      <directory>tests</directory>
+      <directory>./tests</directory>
     </testsuite>
   </testsuites>
 </phpunit>

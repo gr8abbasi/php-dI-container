@@ -13,6 +13,7 @@ return [
     'class-c'         => [
         'class'       => 'Tests\\DummyServices\\ClassC',
         'arguments'   => [
+            'class-a',
             'class-b'
         ]
     ],
