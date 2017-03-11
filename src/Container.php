@@ -20,12 +20,12 @@ class Container implements ContainerInterface
     private $services;
 
     /**
-     * @var ServiceRepositoryInterface
+     * @var ServiceRepositoryInterface|null
      */
     private $repository;
 
     /**
-     * @var ServiceFactoryInterface
+     * @var ServiceFactoryInterface|null
      */
     private $factory;
 
@@ -45,8 +45,8 @@ class Container implements ContainerInterface
         ServiceFactoryInterface $factory = null
     ) {
         $this->services = $services;
-        $this->repository = $repository instanceof ServiceRepositoryInterface ?: new InMemoryServiceRepository();
-        $this->factory = $factory instanceof ServiceFactoryInterface ?: new ConfigFileServiceFactory();
+        $this->repository = $repository ?: new InMemoryServiceRepository();
+        $this->factory = $factory ?: new ConfigFileServiceFactory();
     }
 
     /**
